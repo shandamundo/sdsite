@@ -63,18 +63,28 @@
       <p>
         Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
         Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. 
-        Aliquam erat volutpat. 
       </p>
       <typo-scroll></typo-scroll>
     </div>
 
     <div class="section">
       <h2>Game Night Announcements</h2>
-      <p>
-        Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium. 
-        Join us at the table for dice, cards, and quests.
-      </p>
       <typo-banner></typo-banner>
+    </div>
+
+    <div class="section">
+      <h2>Tavern Signboard</h2>
+      <typo-sign></typo-sign>
+    </div>
+
+    <div class="section">
+      <h2>Ancient Grimoire</h2>
+      <typo-grimoire></typo-grimoire>
+    </div>
+
+    <div class="section">
+      <h2>Marketplace</h2>
+      <typo-market></typo-market>
     </div>
   </main>
 
@@ -83,7 +93,7 @@
   </footer>
 
   <script>
-    // Custom element 1: Scroll with Shadow DOM + typos
+    // Scroll
     class TypoScroll extends HTMLElement {
       constructor() {
         super();
@@ -122,7 +132,7 @@
       }
     }
 
-    // Custom element 2: Banner with Shadow DOM + typos
+    // Banner
     class TypoBanner extends HTMLElement {
       constructor() {
         super();
@@ -155,8 +165,195 @@
       }
     }
 
+    // Signboard with broken link
+    class TypoSign extends HTMLElement {
+      constructor() {
+        super();
+        const shadow = this.attachShadow({ mode: 'open' });
+
+        const board = document.createElement('div');
+        board.setAttribute('class', 'sign');
+
+        const style = document.createElement('style');
+        style.textContent = `
+          .sign {
+            border: 3px groove #e0b050;
+            background: #5a4a3c;
+            padding: 1rem;
+            font-family: "Georgia", serif;
+            border-radius: 6px;
+          }
+          .sign a {
+            color: #f0dca1;
+            text-decoration: none;
+          }
+        `;
+
+        const heading = document.createElement('h3');
+        heading.textContent = "Tavern Signbord";
+
+        const link = document.createElement('a');
+        link.href = "#nonexistent"; // broken link
+        link.textContent = "Clik heer for aventuers (brokn link)";
+
+        board.appendChild(heading);
+        board.appendChild(link);
+
+        shadow.appendChild(style);
+        shadow.appendChild(board);
+      }
+    }
+
+    // Nested Shadow DOM: Grimoire
+    class TypoGrimoire extends HTMLElement {
+      constructor() {
+        super();
+        const shadow = this.attachShadow({ mode: 'open' });
+
+        const cover = document.createElement('div');
+        cover.setAttribute('class', 'grimoire');
+
+        const style = document.createElement('style');
+        style.textContent = `
+          .grimoire {
+            border: 2px solid #7b5e57;
+            background: #2a221c;
+            padding: 1rem;
+            font-family: "Papyrus", fantasy;
+            border-radius: 8px;
+          }
+        `;
+
+        const title = document.createElement('h3');
+        title.textContent = "Grimoir of Lost Spellz";
+
+        const page = document.createElement('typo-grimoire-page');
+
+        cover.appendChild(title);
+        cover.appendChild(page);
+
+        shadow.appendChild(style);
+        shadow.appendChild(cover);
+      }
+    }
+
+    class TypoGrimoirePage extends HTMLElement {
+      constructor() {
+        super();
+        const shadow = this.attachShadow({ mode: 'open' });
+
+        const content = document.createElement('div');
+        content.setAttribute('class', 'page');
+
+        const style = document.createElement('style');
+        style.textContent = `
+          .page {
+            border: 1px dashed #e0b050;
+            background: #3b3027;
+            padding: 0.5rem;
+            margin-top: 0.5rem;
+          }
+        `;
+
+        const spell = document.createElement('p');
+        spell.textContent = "Mysstical Incantashun: 'Ignis Fyar!'";
+
+        const subPage = document.createElement('typo-grimoire-subpage');
+        content.appendChild(spell);
+        content.appendChild(subPage);
+
+        shadow.appendChild(style);
+        shadow.appendChild(content);
+      }
+    }
+
+    class TypoGrimoireSubPage extends HTMLElement {
+      constructor() {
+        super();
+        const shadow = this.attachShadow({ mode: 'open' });
+
+        const note = document.createElement('p');
+        note.textContent = "Sub-seckshun: 'Watter Flow Enchntment' (mispelld).";
+
+        shadow.appendChild(note);
+      }
+    }
+
+    // Nested Market Stall
+    class TypoMarket extends HTMLElement {
+      constructor() {
+        super();
+        const shadow = this.attachShadow({ mode: 'open' });
+
+        const stall = document.createElement('div');
+        stall.setAttribute('class', 'stall');
+
+        const style = document.createElement('style');
+        style.textContent = `
+          .stall {
+            border: 2px solid #e0b050;
+            padding: 1rem;
+            background: #4a3a2a;
+            border-radius: 10px;
+          }
+        `;
+
+        const title = document.createElement('h3');
+        title.textContent = "Markit Stall of Curiositees";
+
+        const goods = document.createElement('typo-goods');
+
+        stall.appendChild(title);
+        stall.appendChild(goods);
+
+        shadow.appendChild(style);
+        shadow.appendChild(stall);
+      }
+    }
+
+    class TypoGoods extends HTMLElement {
+      constructor() {
+        super();
+        const shadow = this.attachShadow({ mode: 'open' });
+
+        const list = document.createElement('ul');
+
+        const item1 = document.createElement('li');
+        item1.textContent = "Rusty Swrod";
+
+        const item2 = document.createElement('li');
+        const nested = document.createElement('typo-good-detail');
+        item2.appendChild(nested);
+
+        list.appendChild(item1);
+        list.appendChild(item2);
+
+        shadow.appendChild(list);
+      }
+    }
+
+    class TypoGoodDetail extends HTMLElement {
+      constructor() {
+        super();
+        const shadow = this.attachShadow({ mode: 'open' });
+
+        const detail = document.createElement('span');
+        detail.textContent = "Amulet of Powr (incorect desciption).";
+
+        shadow.appendChild(detail);
+      }
+    }
+
+    // Register all custom elements
     customElements.define('typo-scroll', TypoScroll);
     customElements.define('typo-banner', TypoBanner);
+    customElements.define('typo-sign', TypoSign);
+    customElements.define('typo-grimoire', TypoGrimoire);
+    customElements.define('typo-grimoire-page', TypoGrimoirePage);
+    customElements.define('typo-grimoire-subpage', TypoGrimoireSubPage);
+    customElements.define('typo-market', TypoMarket);
+    customElements.define('typo-goods', TypoGoods);
+    customElements.define('typo-good-detail', TypoGoodDetail);
   </script>
 </body>
 </html>
